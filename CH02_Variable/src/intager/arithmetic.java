@@ -7,13 +7,13 @@ public class arithmetic {
 		double x=1;
 		double y=2;
 		double r=x+y;
-		double t=y-x;
+		double t=x-y;
 		double z=x*y;
 		double d=x/y;
-		System.out.println("x=" + x);
-		System.out.println("y=" + y);
+		System.out.printf("x=%f\n",x);
+		System.out.printf("y=%f\n",y);
 		System.out.println("x+y=" + r);
-		System.out.println("y-x=" + t);
+		System.out.println("x-y=" + t);
 		System.out.println("x*y=" + z);
 		System.out.println("x/y=" + d);
 		System.out.println(7+3);
