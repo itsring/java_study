@@ -4,7 +4,8 @@ public class Person {
 	private String name; //이름
 	private int age; 	 //나이
 	
-	public Person() {
+	public Person() {	//생성자 이름은 클래스 이름과 같아야된다.
+						//생성자는 리턴이 없다.
 		System.out.println("디폴트 생성자로 생성됨!");
 		name = "모름";
 		age = 0;
