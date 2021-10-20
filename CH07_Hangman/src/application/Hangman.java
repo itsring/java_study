@@ -21,7 +21,7 @@ public class Hangman {
 
 	private void checkUserInput() {
 		// 유저가 단어 철자를 다 맞췄는지 체크 해서 게임을 종료한다.
-		// 게임종료 확ㅇ니한느 메소드 isComplete 만들기
+		// 게임종료 확인하는 메소드 isComplete 만들기
 		boolean isCorrect = word.addGuess(lastGuess);
 
 		if (isCorrect) {
