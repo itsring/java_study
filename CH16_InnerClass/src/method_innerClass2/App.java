@@ -28,20 +28,20 @@ public class App {
 //				
 //			}// 내부 클래스에서 상위 클래스의 변수사용가능
 //		}
-		//Printer p = new Printer();
-		//p.print();
-		//==
+		// Printer p = new Printer();
+		// p.print();
+		// ==
 //		new Printer().print();
 		ScheduledExecutorService service = Executors.newScheduledThreadPool(1);
 		service.scheduleAtFixedRate(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				System.out.println(name);
-				
+
 			}
 		}, 0, 1, TimeUnit.SECONDS);
-		
+
 	}
 
 	public static void main(String[] args) {

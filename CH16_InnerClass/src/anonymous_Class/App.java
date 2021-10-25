@@ -15,7 +15,6 @@ public class App {
 //		};
 //		activate(runner);
 		activate(new Runnable() {
-			
 			@Override
 			public void run() {
 				System.out.println(name);
