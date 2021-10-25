@@ -9,17 +9,17 @@ import java.awt.event.*;
 import javax.swing.*;
 
 class ColorButtonListener implements ActionListener {
-	private MainPanel mainPanel;
+	private ColorChangeListener colorChanger ;
 	private Color color;
 
-	public ColorButtonListener(MainPanel mainPanel, Color color) {
-		this.mainPanel = mainPanel;
+	public ColorButtonListener(ColorChangeListener colorChanger, Color color) {
+		this.colorChanger = colorChanger;
 		this.color = color;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		mainPanel.setBackground(color);
+		colorChanger.changeColor(color);
 //		System.out.println(color+" button clicked!");
 	}
 
@@ -61,14 +61,14 @@ class ColorButtonListener implements ActionListener {
 public class Toolbar extends JToolBar {
 	private static final long serialVersionUID = 1L;
 
-	public Toolbar(MainPanel mainPanel) {
+	public Toolbar(ColorChangeListener colorChanger) {
 		JButton redButton = new JButton("red");
 		JButton blueButton = new JButton("blue");
 
 //		redButton.addActionListener(new RedButtonListener(mainPanel));
 //		blueButton.addActionListener(new BlueButtonListener(mainPanel));
-		redButton.addActionListener(new ColorButtonListener(mainPanel,Color.RED));
-		blueButton.addActionListener(new ColorButtonListener(mainPanel,Color.BLUE));
+		redButton.addActionListener(new ColorButtonListener(colorChanger,Color.RED));
+		blueButton.addActionListener(new ColorButtonListener(colorChanger,Color.BLUE));
 
 		add(redButton);
 		add(blueButton);
