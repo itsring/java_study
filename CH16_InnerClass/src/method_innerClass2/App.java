@@ -9,9 +9,9 @@ import java.util.concurrent.TimeUnit;
 public class App {
 	private String name;
 
-	public String getName() {
-		return name;
-	}
+//	public String getName() {
+//		return name;
+//	}
 
 	public App() {
 		// 기본 생성자

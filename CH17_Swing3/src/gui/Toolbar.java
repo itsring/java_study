@@ -12,8 +12,8 @@ public class Toolbar extends JToolBar {
 	private static final long serialVersionUID = 1L;
 
 	public Toolbar(ColorChangeListener colorChanger) {
-		JButton redButton = new JButton("red");
-		JButton blueButton = new JButton("blue");
+		final JButton redButton = new JButton("red");
+		final JButton blueButton = new JButton("blue");
 
 //		redButton.addActionListener(new RedButtonListener(mainPanel));
 //		blueButton.addActionListener(new BlueButtonListener(mainPanel));
