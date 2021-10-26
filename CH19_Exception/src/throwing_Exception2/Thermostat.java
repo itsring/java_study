@@ -3,14 +3,14 @@ package throwing_Exception2;
 public class Thermostat {
 	public void setTemperature(double temperature) throws Exception{
 		setMachineTemperature(temperature);
-		System.out.println("¿Âµµ ¼¼ÆÃ : "+temperature);//¿Âµµ Á¤»óÀÏ °æ¿ì Ãâ·Â
+		System.out.println("ì˜¨ë„ ì„¸íŒ… : "+temperature);//ì˜¨ë„ ì •ìƒì¼ ê²½ìš° ì¶œë ¥
 	}
 
 	private void setMachineTemperature(double temperature) throws Exception {
 		if(temperature<0 || temperature>35) {
-			//¿Âµµ°¡ ºñÁ¤»óÀ¸·Î ¿¹¿ÜÃ³¸®¸¦ ÇÑ´Ù. / throw´Â ÀÏ´Ü ¿¹ÀÌ¸¦ ³ªÁß¿¡ Ã³¸®
-			//( ÀÌ ¸Ş¼Òµå¸¦ È£Ãâ ÇÒ ¶§ Ã³¸® )
-			throw new Exception("¿Âµµ°¡ ºñÁ¤»óÀÔ´Ï´Ù.");//¿¹¿Ü»ı¼º
+			//ì˜¨ë„ê°€ ë¹„ì •ìƒìœ¼ë¡œ ì˜ˆì™¸ì²˜ë¦¬ë¥¼ í•œë‹¤. / throwëŠ” ì¼ë‹¨ ì˜ˆì´ë¥¼ ë‚˜ì¤‘ì— ì²˜ë¦¬
+			//( ì´ ë©”ì†Œë“œë¥¼ í˜¸ì¶œ í•  ë•Œ ì²˜ë¦¬ )
+			throw new Exception("ì˜¨ë„ê°€ ë¹„ì •ìƒì…ë‹ˆë‹¤.");//ì˜ˆì™¸ìƒì„±
 		}
 	}
 	

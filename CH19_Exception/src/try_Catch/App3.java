@@ -7,10 +7,10 @@ public class App3 {
 	private static Scanner scanner = new Scanner(System.in);
 
 	public static void main(String[] args) {
-		// try catch¹®À» »ç¿ëÇØ ¿¹¿Ü Ã³¸®
+		// try catchë¬¸ì„ ì‚¬ìš©í•´ ì˜ˆì™¸ ì²˜ë¦¬
 
 		int number = getNumber();
-		System.out.println("ÀÔ·ÂÇÑ ¼ıÀÚ´Â : " + number);
+		System.out.println("ì…ë ¥í•œ ìˆ«ìëŠ” : " + number);
 		scanner.close();
 
 	}
@@ -19,13 +19,13 @@ public class App3 {
 		int number = 0;
 		boolean isNumber = false;
 		do {
-			System.out.println("¼ıÀÚ¸¦ ÀÔ·Â");
+			System.out.println("ìˆ«ìë¥¼ ì…ë ¥");
 			String line = scanner.nextLine();
 			try {
 				number = Integer.parseInt(line);
 				isNumber = true;
 			} catch (Exception e) {
-				System.out.println("¼ıÀÚ ÀÔ·ÂÀÌ ¾Æ´Õ´Ï´Ù.");
+				System.out.println("ìˆ«ì ì…ë ¥ì´ ì•„ë‹™ë‹ˆë‹¤.");
 			}
 		} while (!isNumber);
 		return number;

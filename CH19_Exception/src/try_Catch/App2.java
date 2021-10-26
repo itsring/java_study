@@ -3,23 +3,23 @@ import java.util.*;
 public class App2 {
 
 	public static void main(String[] args) {
-		//try catch¹®À» »ç¿ëÇØ ¿¹¿Ü Ã³¸®
+		//try catchë¬¸ì„ ì‚¬ìš©í•´ ì˜ˆì™¸ ì²˜ë¦¬
 		Scanner scanner = new Scanner(System.in);
 		
-		System.out.println("¼ıÀÚ¸¦ ÀÔ·Â");
+		System.out.println("ìˆ«ìë¥¼ ì…ë ¥");
 		String line = scanner.nextLine();
 		int number = 0;
 		boolean isNumber = false;
 		try {
 			number = Integer.parseInt(line);
-			//¿¡·¯°¡ ³ªÁö ¾ÊÀ¸¸é ¼ıÀÚ ÀÔ·ÂÀÌ ¸ÂÀ½
+			//ì—ëŸ¬ê°€ ë‚˜ì§€ ì•Šìœ¼ë©´ ìˆ«ì ì…ë ¥ì´ ë§ìŒ
 			isNumber = true;
-		} catch (Exception e) {//try¹®¿¡¼­ ¿¡·¯ ¹ß»ı½Ã catch ¹®¿¡¼­ Ã³¸®ÇÑ´Ù.
-			System.out.println("¼ıÀÚ ÀÔ·ÂÀÌ ¾Æ´Õ´Ï´Ù."); 
+		} catch (Exception e) {//tryë¬¸ì—ì„œ ì—ëŸ¬ ë°œìƒì‹œ catch ë¬¸ì—ì„œ ì²˜ë¦¬í•œë‹¤.
+			System.out.println("ìˆ«ì ì…ë ¥ì´ ì•„ë‹™ë‹ˆë‹¤."); 
 			
 		}
 		if(isNumber) {
-			System.out.println("ÀÔ·ÂÇÑ ¼ıÀÚ´Â : "+number);
+			System.out.println("ì…ë ¥í•œ ìˆ«ìëŠ” : "+number);
 		}
 		
 		scanner.close();
