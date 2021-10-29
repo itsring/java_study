@@ -2,10 +2,10 @@ package application;
 
 public class App {
 	public static void main(String[] args) {
-		// гЮ╦г га╥н╠в╥╔ ╫цюш
+		// О©╫О©╫О©╫ О©╫О©╫О©╫н╠в╥О©╫ О©╫О©╫О©╫О©╫
 		Hangman game = new Hangman();
-		game.run(); //╟тюс ╫цюш
-		game.close();//╟тюса╬╥А
+		game.run(); //О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫
+		game.close();//О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫
 	}
 
 }

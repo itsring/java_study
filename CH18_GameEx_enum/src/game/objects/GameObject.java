@@ -2,17 +2,17 @@ package game.objects;
 
 public enum GameObject {
 
-	°¡À§, ¹ÙÀ§, º¸;
+	ê°€ìœ„, ë°”ìœ„, ë³´;
 	
 	private int[][] comparison = {
-					//    °¡À§(0)  ¹ÙÀ§(1)   º¸(2)
-		/* °¡À§(0) */		{  0,   -1,    1 },
-		/* ¹ÙÀ§(1) */		{  1,    0,   -1 },
-		/* º¸ (2)*/		{ -1,    1,    0 }
+					//    ê°€ìœ„(0)  ë°”ìœ„(1)   ë³´(2)
+		/* ê°€ìœ„(0) */		{  0,   -1,    1 },
+		/* ë°”ìœ„(1) */		{  1,    0,   -1 },
+		/* ë³´ (2)*/		{ -1,    1,    0 }
 	};
 	
 	public int compare(GameObject ob) {
 		return comparison[this.ordinal()][ob.ordinal()];
-	}	//°¡À§ = 0, ¹ÙÀ§ = 1, º¸ = 2 / enum¿¡¼­´Â ordinal·Î ¾Ë¼ö ÀÖÀ½
+	}
 	
 }
