@@ -1,7 +1,8 @@
 package arrayList;
 
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Test {
@@ -9,7 +10,8 @@ public class Test {
 	public static void main(String[] args) {
 		// 스캐너 사용해 리스트에 실수를 입력하여 출력
 		Scanner scanner = new Scanner(System.in);
-		ArrayList<Double> numbers = new ArrayList<>();
+		
+		List<Double> numbers = new LinkedList<>();
 		double total = 0;
 
 		while (true) {
