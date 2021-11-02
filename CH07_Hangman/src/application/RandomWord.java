@@ -6,13 +6,13 @@ public class RandomWord {
 	private String books = "literature assistant historian excitement manufacturer celebration girlfriend decision reputation solution development language introduction recognition procedure weakness complaint delivery inspection birthday";
 	private String[] words = books.split(" ");
 
-	private String selectWord; // ¼±ÅÃÇÑ ´Ü¾î
-	private Random rand = new Random(); // ·£´ı °´Ã¼¸¦ »ı¼º
+	private String selectWord; // ì„ íƒí•œ ë‹¨ì–´
+	private Random rand = new Random(); // ëœë¤ ê°ì²´ë¥¼ ìƒì„±
 	private char[] characters;
 
 	public RandomWord() {
-		selectWord = words[rand.nextInt(words.length)]; // ·£´ıÀ¸·Î ´Ü¾î¸¦ ¼±ÅÃ
-		characters = new char[selectWord.length()]; // ¹®ÀÚ ¹è¿­ °ø°£ »ı¼º
+		selectWord = words[rand.nextInt(words.length)]; // ëœë¤ìœ¼ë¡œ ë‹¨ì–´ë¥¼ ì„ íƒ
+		characters = new char[selectWord.length()]; // ë¬¸ì ë°°ì—´ ê³µê°„ ìƒì„±
 	}
 
 	public String toString() {
@@ -24,7 +24,7 @@ public class RandomWord {
 			sb.append(' ');
 		}
 
-//		System.out.println(selectWord);
+		//System.out.println(selectWord);
 		return sb.toString();
 	}
 
@@ -34,28 +34,24 @@ public class RandomWord {
 		}
 	}
 
-	public boolean addGuess(char c) {
-		// »ç¿ëÀÚ°¡ ÀÔ·ÂÇÑ ÇÑ ¹®ÀÚ¸¦ ¼±ÅÃµÈ ´Ü¾î¿¡¼­ °°Àº°Ô ÀÖ´ÂÁö È®ÀÎ
-		// ÀÖÀ¸¸é characters ÀÇ ÀÎµ¦½º À§Ä¡¿¡ ÀÔ·Â.
+	public void addGuess(char c) {
+		// ì‚¬ìš©ìê°€ ì…ë ¥í•œ í•œ ë¬¸ìë¥¼ ì„ íƒëœ ë‹¨ì–´ì—ì„œ ê°™ì€ê²Œ ìˆëŠ”ì§€ í™•ì¸
+		// ìˆìœ¼ë©´ characters ì˜ ì¸ë±ìŠ¤ ìœ„ì¹˜ì— ì…ë ¥.
 		for (int i = 0; i < selectWord.length(); i++) {
 			if (c == selectWord.charAt(i)) {
 				characters[i] = c;
-				return true;
 			}
 		}
-		return false;
 
 	}
 
-	public boolean isCompleted() {// ´Ù ¸ÂÃè³ª
-		for (char c : characters) {
-			if (c == '\u0000') {// ¾ÆÁ÷ Ä³¸¯ÅÍÁî ¹è¿­¿¡ ¸ø¸ÂÃá Ã¶ÀÚ°¡ ÀÖÀ½
-				return false;
-			}
-		}
-		return true;
-	}// ´Ù ¸ÂÃèÀ¸¸é true / ¸ø¸ÂÃá Ã¶ÀÚ ÀÖÀ¸¸é false
-	public void showSelectWord(){
-		System.out.println(selectWord);
+	public boolean isCompleted() { // ë‹¤ ë§ì·„ë‚˜?
+		
+		for(char c : characters) {
+			if(c=='\u0000') {
+				return false; //ì•„ì§ ìºë¦­í„°ì¦ˆ ë°°ì—´ì— ëª»ë§ì¶˜ ì² ìê°€ ìˆìŒ
+			} 
+		}		
+		return true; //ë‹¤ ë§ì·„ìŒ 
 	}
 }

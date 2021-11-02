@@ -3,75 +3,47 @@ package application;
 import java.util.Scanner;
 
 public class Hangman {
-
+	
 	private boolean running = true;
 	private RandomWord word = new RandomWord();
 	private Scanner scanner = new Scanner(System.in);
-	private int remainTries = 7;
-	private char lastGuess;
 
 	public void run() {
 		do {
-			displayWord(); // È­¸é¿¡ ´Ü¾îÇ¥½Ã
-			getUserInput(); // ÀÔ·Â¹ŞÀ½
-			checkUserInput(); // ¸Â´ÂÁö Ã¼Å© ´Ù¸ÂÀ¸¸é running = false
-
-		} while (running);
+			displayWord();    //í™”ë©´ì— ë‹¨ì–´í‘œì‹œ
+			getUserInput();   //ì…ë ¥ë°›ìŒ
+			checkUserInput(); //ë§ëŠ”ì§€ ì²´í¬ ë‹¤ë§ìœ¼ë©´ running = false			
+		} while (running);		
+	}
+	
+	public void close() {
+		//ê²Œì„ ì¢…ë£Œ, ìŠ¤ìºë„ˆ ë‹«ê¸°
+		scanner.close();
 	}
 
 	private void checkUserInput() {
-		// À¯Àú°¡ ´Ü¾î Ã¶ÀÚ¸¦ ´Ù ¸ÂÃè´ÂÁö Ã¼Å© ÇØ¼­ °ÔÀÓÀ» Á¾·áÇÑ´Ù.
-		// °ÔÀÓÁ¾·á È®ÀÎÇÏ´Â ¸Ş¼Òµå isComplete ¸¸µé±â
-		boolean isCorrect = word.addGuess(lastGuess);
-
-		if (isCorrect) {
-			if (word.isCompleted()) {
-				System.out.println("Àß ¸ÂÃè¾î¿ä");
-				System.out.println("½ÃµµÈ½¼ö: "+ remainTries);				
-				System.out.println("Á¤´äÀº : " + word);
-				running = false;
-			}
+		//ìœ ì €ê°€ ë‹¨ì–´ ì² ìë¥¼ ë‹¤ ë§ì·„ëŠ”ì§€ ì²´í¬í•´ì„œ ê²Œì„ì„ ì¢…ë£Œ(running = false)
+		//ê²Œì„ì¢…ë£Œ í™•ì¸í•˜ëŠ” ë©”ì†Œë“œ isCompleted ë§Œë“¤ê¸°
+		if(word.isCompleted()) {
+			System.out.println("ì˜ ë§ì·„ì–´ìš”!");
+			System.out.println("ì •ë‹µì€ : " + word.toString());
+			running = false; //ë°˜ë³µë¬¸ ì¢…ë£Œ			
 		}
-		else {
-			remainTries--;
-			if(remainTries == 0) {
-				System.out.println("Game Over!");				
-				running = false;
-				showSelectWord();
-			}
-			System.out.println("³²Àº È½¼ö : "+remainTries);
-		}
-//		System.out.println("Ã¼Å©");
-
-	}
-
-	
-
-	private void showSelectWord() {
-		// TODO Auto-generated method stub
-		
-		word.showSelectWord();
 		
 	}
 
 	private void getUserInput() {
-		// À¯Àú¿¡°Ô ÇÑ ¹®ÀÚ ÀÔ·Â ¿ä±¸
-		// ÀÔ·Â¹ŞÀº ¹®ÀÚ¿­¿¡¼­ ±× ¹®ÀÚ¸¦ »Ì¾Æ¼­ RandomWord °´Ã¼¿¡ Àü´Ş => addGuess(¹®ÀÚ) ¸Ş¼Òµå
-		System.out.print("ÇÑ ¹®ÀÚ ÀÔ·Â : ");
+		//ìœ ì €ì—ê²Œ í•œ ë¬¸ì ì…ë ¥ ìš”êµ¬
+		//ì…ë ¥ë°›ì€ ë¬¸ìì—´ì—ì„œ ê·¸ ë¬¸ìë¥¼ ë½‘ì•„ì„œ RandomWord ê°ì²´ì— ì „ë‹¬ => addGuess(ë¬¸ì) ë©”ì†Œë“œ
+		System.out.print("í•œ ë¬¸ì ì…ë ¥ : ");
 		String guess = scanner.nextLine();
-//		word.addGuess(guess.charAt(0));
-		lastGuess = guess.charAt(0);
-
+		word.addGuess(guess.charAt(0));
+		
 	}
 
 	private void displayWord() {
-		// ·£´ı ´Ü¾î Ãâ·Â
-		System.out.println(word.toString());
-	}
-
-	public void close() {
-		// °ÔÀÓ Á¾·á½Ã ½ºÄ³³Ê ´İ±â
-		scanner.close();
+		// ëœë¤ ë‹¨ì–´ ì¶œë ¥						
+		System.out.println(word.toString());		
 	}
 
 }
