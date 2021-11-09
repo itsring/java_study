@@ -5,12 +5,10 @@ package application;
 public class Account {
     private String id;
     private String password;
-    private int money;
 
-    public Account(String id, String password, int money) {
+    public Account(String id, String password) {
         this.id = id;
         this.password = password;
-        this.money = money;
     }
 
     public String getId() {
@@ -29,20 +27,10 @@ public class Account {
         this.password = password;
     }
 
-    public int getMoney() {
-        return money;
-    }
+	@Override
+	public String toString() {
+		return id;
+	}
 
-    public void setMoney(int money) {
-        this.money = money;
-    }
-
-    @Override
-    public String toString() {
-        return "Account{" +
-                "id='" + id + '\'' +
-                ", password='" + password + '\'' +
-                ", money=" + money +
-                '}';
-    }
 }
+
