@@ -7,7 +7,7 @@ class Professor {
 	String id;
 	String Password;
 	static ArrayList<Account> subject = new ArrayList<>();
-
+	static Student student = new Student();
 	public String getId() {
 		return id;
 	}
@@ -27,9 +27,9 @@ class Professor {
 	static void professor() {
 		System.out.println("교수 아이디로 접속하였습니다.");
 		boolean stay = true;
-		boolean yOrN = true;
 
 		while (stay) {
+			boolean yOrN = true;
 			System.out.println("======================================");
 			System.out.println("원하시는 기능을 선택해주세요.");
 			System.out.println("1. 출결관리");
@@ -47,11 +47,14 @@ class Professor {
 			switch (action) {
 			case 1:
 				System.out.println("======================================");
+				System.out.println();
+				System.out.println();
 				System.out.println("출결 관리를 선택하였습니다.");
+				System.out.println(" 'o' 또는 'x' 를 입력해주세요");
 				System.out.println();
 				System.out.println();
-				System.out.println("학생 리스트 ==========");
-				System.out.println("======================================");
+				System.out.println("============학생 리스트==================");
+				
 				for (int i = 0; i < 10; i++) {
 					repeat = true;
 					while (repeat) {
@@ -77,7 +80,8 @@ class Professor {
 				System.out.println("======================================");
 				String subjectNumber = input_Pf(3);
 				String subjectName = input_Pf(4);
-
+				student.setId(subjectNumber);
+				student.setPassword(subjectName);
 				System.out.println("등록 되었습니다.");
 				subject.add(new Account(subjectNumber, subjectName));
 				break;
@@ -94,11 +98,13 @@ class Professor {
 				System.out.println("7. 통합 구현");
 				System.out.println("8. UI 구현");
 				System.out.println("======================================");
+				break;
 			case 4:
 				System.out.println("======================================");
 				System.out.println("성적 평가");
 				System.out.println("======================================");
 				Result();
+				break;
 			default:
 				break;
 			}
@@ -131,7 +137,7 @@ class Professor {
 		case 3:
 			while (true) {
 				System.out.println("======================================");
-				System.out.println("\t\t과목번호를 입력해 주세요.");
+				System.out.println("과목번호를 입력해 주세요.");
 				System.out.println("======================================");
 				result = scanner.nextLine();
 				break;
@@ -140,7 +146,7 @@ class Professor {
 		case 4:
 			while (true) {
 				System.out.println("======================================");
-				System.out.println("\t\t과목이름를 입력해주세요");
+				System.out.println("과목이름를 입력해주세요");
 				System.out.println("======================================");
 				result = scanner.nextLine();
 				break;
@@ -154,37 +160,33 @@ class Professor {
 		// 학생 성적을 입력받고 학생 성적의 점수에 따라 등급을 나뉨
 		System.out.println("======================================");
 		System.out.println("학생들의 점수를 랜덤함수로 1~99점까지 생성 후 10명에게 분배");
+		System.out.println("    30점미만 'F', 90점 이상 'A+'로 10점마다 등급 조정    ");
 		System.out.println("======================================");
 		ArrayList<Account> grade = new ArrayList<>();
 		for (int i = 0; i < 10; i++) {
 			String stugrade = null;
 			int randomGrade = (int) (Math.random() * 100);
-			grade.add(new Account("학생" + i, String.valueOf(randomGrade)));
-			if (Integer.valueOf(grade.get(i).getPassword()).intValue() < 100
-					&& Integer.valueOf(grade.get(i).getPassword()).intValue() >= 90) {
+			grade.add(new Account("학생 " + i, String.valueOf(randomGrade)));
+			var gradePW = Integer.valueOf(grade.get(i).getPassword()).intValue();
+			if (gradePW < 100 && gradePW >= 90) {
 				stugrade = "A+";
-			} else if (Integer.valueOf(grade.get(i).getPassword()).intValue() < 90
-					&& Integer.valueOf(grade.get(i).getPassword()).intValue() >= 80) {
+			} else if (gradePW < 90 && gradePW >= 80) {
 				stugrade = "A";
-			} else if (Integer.valueOf(grade.get(i).getPassword()).intValue() < 80
-					&& Integer.valueOf(grade.get(i).getPassword()).intValue() >= 70) {
+			} else if (gradePW < 80 && gradePW >= 70) {
 				stugrade = "B+";
-			} else if (Integer.valueOf(grade.get(i).getPassword()).intValue() < 70
-					&& Integer.valueOf(grade.get(i).getPassword()).intValue() >= 60) {
+			} else if (gradePW < 70 && gradePW >= 60) {
 				stugrade = "B";
-			} else if (Integer.valueOf(grade.get(i).getPassword()).intValue() < 60
-					&& Integer.valueOf(grade.get(i).getPassword()).intValue() >= 50) {
+			} else if (gradePW < 60 && gradePW >= 50) {
 				stugrade = "C+";
-			} else if (Integer.valueOf(grade.get(i).getPassword()).intValue() < 50
-					&& Integer.valueOf(grade.get(i).getPassword()).intValue() >= 40) {
+			} else if (gradePW < 50 && gradePW >= 40) {
 				stugrade = "C";
-			} else if (Integer.valueOf(grade.get(i).getPassword()).intValue() < 40
-					&& Integer.valueOf(grade.get(i).getPassword()).intValue() >= 30) {
+			} else if (gradePW < 40 && gradePW >= 30) {
 				stugrade = "D";
 			} else {
 				stugrade = "F";
 			}
-			System.out.println(grade.get(i) + " : " + stugrade);
+			System.out.println(grade.get(i) + " : " + stugrade +
+					", 원 점수 :"+randomGrade);
 		}
 	}
 }

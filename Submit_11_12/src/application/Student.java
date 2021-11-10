@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 class Student {
-	String id;
-	String Password;
+	static String id;
+	static String Password;
 	static ArrayList<Account> subject = new ArrayList<>();
 	static Professor professor = new Professor();
-	public String getId() {
+	public static String getId() {
 		return id;
 	}
 
@@ -16,7 +16,7 @@ class Student {
 		this.id = id;
 	}
 
-	public String getPassword() {
+	public static String getPassword() {
 		return Password;
 	}
 
@@ -26,8 +26,8 @@ class Student {
 	static void student() {
 		System.out.println("학생 아이디로 접속하였습니다.");
 		boolean stay = true;
-		boolean yOrN = true;
 		while (stay) {
+			boolean yOrN = true;
 			System.out.println("======================");
 			System.out.println("원하시는 기능을 선택해주세요.");
 			System.out.println("1. 수강신청");
@@ -41,15 +41,17 @@ class Student {
 			case 1:
 				System.out.println("======================");
 				System.out.println("1. 수강신청를 선택하였습니다.");
-				System.out.println("과목 리스트 ==========");
-				System.out.println("======================");
+				System.out.println("수업 리스트 ==========");
+				
+				subject.add(new Account(getId(), getPassword()));
 				int count=1;
 				for (Account n : subject) {
 					repeat = true;
 					while (repeat) {
-						System.out.println(count+". "+n.getPassword());
+						System.out.println(n.getPassword()+". "+n.getId());
 						pw = scanner.next();
 						if (pw.equals("o") || pw.equals("x")) {
+							System.out.println("수강신청이 완료되었습니다.");
 							repeat = false;
 						} else {
 							System.out.println("======================");
@@ -60,14 +62,13 @@ class Student {
 						count++;
 					}
 				}
+				System.out.println("======================");
 				break;
 			case 2:
 				System.out.println("======================");
 				System.out.println("2. 성적 환인을 선택하였습니다.");
 				System.out.println("======================");
 				Professor.Result();
-				
-
 				break;
 			default:
 				break;

@@ -8,26 +8,25 @@ public class App {
 	private static boolean mIsRunning = true;
 
 	private static ArrayList<Account> mAccounts = new ArrayList<>();
-	
+
 	// 관리자 교수 학생 아이디 1개 씩 보관
 	static Admin admin = new Admin();
 	static Professor professor = new Professor();
 	static Student student = new Student();
 	static String[] account = { "admin", "professor", "student" };
+	private static Scanner scanner = new Scanner(System.in);
 
 	public static void main(String[] args) {
-		Scanner scanner = new Scanner(System.in);
 		mAccounts.add(new Account("admin", "admin"));
 		mAccounts.add(new Account("professor", "professor"));
-		mAccounts.add(new Account("student", "studentpw"));
-		
-		
+		mAccounts.add(new Account("student", "student"));
+
 		/* arrayList의 key값 = id로 하고 */
 
 		// 학사관리 시스템(id, pw) 1,2,3 선택
 		// 1. 접속 - 1. 관리자, 2. 교수, 3. 학생
-		// 1_1. 관리자 - 학생등록 , 교수등록 (admin,admin)
-		// 1_2. 교수 - 출석, 과목, 과정, 평가 (professor,professor)
+		// 1_1. 관리자 - 신청된 회원등록(admin,admin)
+		// 1_2. 교수 - 출석, 과목, 과정설명, 평가 (professor,professor)
 		// 1_3. 학생 - 수강신청, 성적확인 (student, student)
 		// 2. 학생등록신청 v (id, pw)
 
@@ -35,15 +34,22 @@ public class App {
 			display();
 		}
 		scanner.close();
+		System.out.println("프로그램을 종료합니다.");
+		System.out.println("이용해 주셔서 감사합니다.");
+		System.out.println("============================");
 		/*
 		*/
 
 	}
 
+	/*
+	 * 제일 처음 시작하는 메소드 1,2,3번중 선택 1번 : login 메소드 2번 : makeAccount 메소드 3번 : 프로그램 종료
+	 * mIsRunning = false
+	 */
 	private static void display() { // 실행하자마자 보이는 화면 출력
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("======================================");
-		System.out.println("학 교  통 합  관 리  시 스 템\n");
+		System.out.println("학 교  종 합  관 리  시 스 템\n");
 		System.out.println("1. 접   속\n2. 회원등록\n3. 프로그램 종료\n");
 		System.out.println("======================================");
 		int action = scanner.nextInt();
@@ -76,7 +82,6 @@ public class App {
 		String id = input_App(1);
 		String pw = null;
 		int indexNumber = 0;
-		int i = 0;
 
 		String strAppend = mAccounts.toString(); // mAccounts의 모든 값을 스트링으로 변환 후 strAppend 스트링에 입력
 		strAppend = strAppend.replace("[", ""); // 대괄호 제거 해서 재 할당
@@ -85,14 +90,6 @@ public class App {
 		String[] strSplit = strAppend.split(", "); // ,+한칸 띄운거 기준으로 분리해서 배열에 입력
 		indexNumber = Arrays.asList(strSplit).indexOf(id); // mAccounts의 key number를 찾기위해
 
-//		System.out.println(indexNumber);	//test code
-//		System.out.println(Arrays.asList(strSplit)); // test code
-
-		for (int j = 0; j < mAccounts.size(); j++) {
-//			System.out.println(indexNumber);
-			System.out.println(indexNumber);
-		}
-//		}
 		if (id.equals(mAccounts.get(indexNumber).getId())) {
 			while (true) {
 				pw = input_App(2);
@@ -108,6 +105,8 @@ public class App {
 						Student.student();
 						break;
 					default:
+						System.out.println("회원정보 : " + id + " (" + admin.getJob() + " )");
+						System.out.println("권한이 등록되지 않은 회원입니다.");
 						break;
 					}
 					break;
@@ -116,21 +115,13 @@ public class App {
 					mIsRunning = false;
 				}
 			}
-		}
-
-		else {
+		} else {
 			if (pw == null) {
 				System.out.println("===============warning===============");
 				System.out.println("\t\t아이디를 다시 확인해 주세요");
 				System.out.println("======================================");
 			}
-
 		}
-	}
-
-	private static char[] typeOf(String id) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	private static void passwordWrong() {
@@ -144,23 +135,31 @@ public class App {
 
 	}
 
-	private static void makeAccount() {
+	protected static void makeAccount() {
 		while (true) {
 			System.out.println("회원 등록을 진행합니다.");
-
+			String job = input_App(3);
+			if (job.equals("student")) {
+				System.out.println("학생 아이디로 등록진행합니다.");
+			} else if (job.equals("professor")) {
+				System.out.println("교수 아이디로 등록진행합니다.");
+			} else {
+				System.out.println("외부인 아이디로 등록진행합니다.");
+			}
 			String id = input_App(1);
 			String password = input_App(2);
-
 			System.out.println("등록신청 되었습니다.");
 			mAccounts.add(new Account(id, password));
-			break;
+			admin.setId(id);
+			admin.setPassword(password);
+			admin.setJob(job);
 
+			break;
 		}
 
 	}
 
 	static String input_App(int mode) {
-		Scanner scanner = new Scanner(System.in);
 		String result = null;
 
 		switch (mode) {
@@ -180,6 +179,20 @@ public class App {
 		case 2:
 			while (true) {
 				System.out.println("비밀번호를 입력하세요!");
+				result = scanner.nextLine();
+
+				if (result.trim().isEmpty()) {
+					passwordWrong();
+				} else {
+					break;
+				}
+			}
+
+			break;
+		case 3:
+			while (true) {
+				System.out.println("직업을 입력하세요");
+				System.out.println("( student / professor / 기타)중 1택");
 				result = scanner.nextLine();
 
 				if (result.trim().isEmpty()) {
