@@ -40,11 +40,14 @@ class Admin {
 		Scanner scanner = new Scanner(System.in);
 		while (stay) {
 			boolean yOrN = true;
+			if(getId()==null) {
+			System.out.println("등록 신청된 회원이 없습니다.");	
+			}else{
 			System.out.printf("등록 신청된 회원 : ID : %s, PW : %s, JOB : %s \n",
 					getId(), getPassword(), getJob());
 			mAccounts.add(new Account(getId(), getPassword()));
 			System.out.println("확인");
-			
+			}
 			while (yOrN) {
 				System.out.println("======================================");
 				System.out.println("로그아웃 하시겠습니까? (y,n)");

@@ -32,11 +32,11 @@ public class App {
 
 		while (mIsRunning) {
 			display();
-		}
+		}//강제 종료시 오류뜨는거 해결해야함.
 		scanner.close();
 		System.out.println("프로그램을 종료합니다.");
 		System.out.println("이용해 주셔서 감사합니다.");
-		System.out.println("============================");
+		System.out.println("======================================");
 		/*
 		*/
 
@@ -75,7 +75,6 @@ public class App {
 			System.out.println("\t\t존재하지 않는 기능입니다!");
 			System.out.println("======================================");
 		}
-
 	}
 
 	private static void login() { // 로그인 화면 admin = 관리자 professor = 교수 student = 학생 로그인
@@ -84,30 +83,25 @@ public class App {
 		int indexNumber = 0;
 
 		String strAppend = mAccounts.toString(); // mAccounts의 모든 값을 스트링으로 변환 후 strAppend 스트링에 입력
-		strAppend = strAppend.replace("[", ""); // 대괄호 제거 해서 재 할당
+		strAppend = strAppend.replace("[", ""); // 대괄호 제거 후 재 할당
 		strAppend = strAppend.replace("]", ""); // 대괄호 제거 후 재 할당
 
 		String[] strSplit = strAppend.split(", "); // ,+한칸 띄운거 기준으로 분리해서 배열에 입력
 		indexNumber = Arrays.asList(strSplit).indexOf(id); // mAccounts의 key number를 찾기위해
-
+		
 		if (id.equals(mAccounts.get(indexNumber).getId())) {
 			while (true) {
 				pw = input_App(2);
 				if (pw.equals(mAccounts.get(indexNumber).getPassword())) {
-					switch (id) {
-					case "admin":
+					if (id == "admin") {
 						Admin.admin();
-						break;
-					case "professor":
+					} else if (id == "professor" || Admin.getJob().equals("professor")) {
 						Professor.professor();
-						break;
-					case "student":
+					} else if (id == "student" || Admin.getJob().equals("student")) {
 						Student.student();
-						break;
-					default:
-						System.out.println("회원정보 : " + id + " (" + admin.getJob() + " )");
+					} else {
+						System.out.println("회원정보 : " + id + " (등록 직종 :" + Admin.getJob() + " )");
 						System.out.println("권한이 등록되지 않은 회원입니다.");
-						break;
 					}
 					break;
 				} else {
@@ -117,14 +111,14 @@ public class App {
 			}
 		} else {
 			if (pw == null) {
-				System.out.println("===============warning===============");
+				System.out.println("===============warning================");
 				System.out.println("\t\t아이디를 다시 확인해 주세요");
 				System.out.println("======================================");
 			}
 		}
 	}
 
-	private static void passwordWrong() {
+	private static void passwordWrong() { // 비밀번호 틀릴때 호출하는 메소드
 		System.out.println("===============warning===============");
 		System.out.println();
 		System.out.println();
@@ -132,15 +126,14 @@ public class App {
 		System.out.println();
 		System.out.println();
 		System.out.println("======================================");
-
 	}
 
-	protected static void makeAccount() {
+	protected static void makeAccount() { // 2번 누르면 회원등록
 		while (true) {
 			System.out.println("회원 등록을 진행합니다.");
 			String job = input_App(3);
 			if (job.equals("student")) {
-				System.out.println("학생 아이디로 등록진행합니다.");
+				System.out.println("학생 아이디로 등록진행합니다."); // job에 따라
 			} else if (job.equals("professor")) {
 				System.out.println("교수 아이디로 등록진행합니다.");
 			} else {
@@ -153,18 +146,14 @@ public class App {
 			admin.setId(id);
 			admin.setPassword(password);
 			admin.setJob(job);
-
 			break;
 		}
-
 	}
 
 	static String input_App(int mode) {
 		String result = null;
-
 		switch (mode) {
-
-		case 1:
+		case 1:		//인풋 id
 			while (true) {
 				System.out.println("id를 입력하세요!");
 				result = scanner.nextLine();
@@ -176,7 +165,7 @@ public class App {
 				}
 			}
 			break;
-		case 2:
+		case 2:		//인풋 pw
 			while (true) {
 				System.out.println("비밀번호를 입력하세요!");
 				result = scanner.nextLine();
@@ -187,9 +176,8 @@ public class App {
 					break;
 				}
 			}
-
 			break;
-		case 3:
+		case 3:		//인풋 job
 			while (true) {
 				System.out.println("직업을 입력하세요");
 				System.out.println("( student / professor / 기타)중 1택");
@@ -201,13 +189,10 @@ public class App {
 					break;
 				}
 			}
-
 			break;
-
 		default:
 			break;
 		}
 		return result;
 	}
-
 }

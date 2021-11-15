@@ -58,7 +58,7 @@ class Professor {
 				for (int i = 0; i < 10; i++) {
 					repeat = true;
 					while (repeat) {
-						System.out.println("학생" + i);
+						System.out.println("학생" + i);	//임의로 학생 list 생성 후 o, x 표기 저장은 안됨
 						pw = scanner.next();
 						if (pw.equals("o") || pw.equals("x")) {
 							repeat = false;
