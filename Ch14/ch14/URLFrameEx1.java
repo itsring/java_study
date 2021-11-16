@@ -54,7 +54,7 @@ public class URLFrameEx1 extends MFrame implements ActionListener {
 	public void createFile(String file, String content) {
 		System.out.println(file);
 		try {
-			FileWriter fw = new FileWriter("ch14/"+file);
+			FileWriter fw = new FileWriter("Ch14/"+file);
 			fw.write(content);
 			fw.close();
 			
