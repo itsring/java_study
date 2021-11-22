@@ -72,7 +72,7 @@ public class EchoFrameClient extends MFrame implements ActionListener {
 			}
 		}
 	}
-
+	
 	public void connect(String host) {
 		try {
 			Socket sock = new Socket(host, port);

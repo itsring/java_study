@@ -113,5 +113,4 @@ public class ChatServer1 {
 	public static void main(String[] args) {
 		new ChatServer1();
 	}
-
 }
