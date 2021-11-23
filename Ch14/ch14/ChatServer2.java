@@ -6,7 +6,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Iterator;
 import java.util.Vector;
 public class ChatServer2 extends Thread{
 //기능 : 멀티 쓰레드 추가
@@ -21,6 +20,7 @@ public class ChatServer2 extends Thread{
 		try {
 			//예외가 일어날 가능이 있는 코드 / 경험으로  
 			server = new ServerSocket(port);
+			vc=new Vector<ClientThread2>();
 		} catch (Exception e) {
 			System.err.println("Error in Server");
 			e.printStackTrace();
@@ -38,9 +38,8 @@ public class ChatServer2 extends Thread{
 				vc.addElement(ct);//Vector에 추가
 			}
 		} catch (Exception e) {
-		System.err.println("Error in Socket");
-		e.printStackTrace();
-		
+				System.err.println("Error in Socket");
+				e.printStackTrace();	
 		}
 	}
 	
@@ -104,7 +103,7 @@ public class ChatServer2 extends Thread{
 			System.out.println("line : "+ line);
 			//CHATALL : 오늘은 월요일입니다.
 			int idx=line.indexOf(':');
-			String cmd/*CHATALL*/ = line.substring(idx);
+			String cmd/*CHATALL*/ = line.substring(0,idx);
 			String data/*오늘은...*/ = line.substring(idx+1);
 			if(cmd.equals(ChatProtocol2.ID)) {
 				//data=aaa
@@ -124,9 +123,9 @@ public class ChatServer2 extends Thread{
 				// ct == bbb Client 객체
 				ClientThread2 ct = findClient(cmd);
 				if(ct!=null) {
-					ct.sendMessage(ChatProtocol2.CHAT+": ["+id+"(S)]"+data);
+					ct.sendMessage(ChatProtocol2.CHAT+":["+id+"(S)]"+data);
 				}else { // 내 자신에게 보냄
-					sendMessage(ChatProtocol2.CHAT+": ["+cmd+"] 접속자가 아닙니다.");
+					sendMessage(ChatProtocol2.CHAT+":["+cmd+"] 접속자가 아닙니다.");
 				}
 			}else if(cmd.equals(ChatProtocol2.MESSAGE)) {
 				idx=data.indexOf(';');
@@ -162,7 +161,7 @@ public class ChatServer2 extends Thread{
 				ClientThread2 ct=vc.get(i);
 				ids+=ct.id+";"; // 107라인에서 id값 넣어줌
 			}
-			return ids; //ㅁㅁㅁ;,ㅠㅠㅠ;,홍길동;ㅊㅊㅊ;ㅁ123; 만들어주는 메소드
+			return ids; //aaa;,bbb;,홍길동;ㅊㅊㅊ;ㅁ123; 만들어주는 메소드
 		}
 		//접속된 id 
 		public void sendMessage(String msg) {

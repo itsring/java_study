@@ -16,7 +16,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -38,10 +37,11 @@ implements ActionListener, Runnable {
 
 	public ChatClientAWT2() {
 		super(450, 500);
-		setTitle("ChatClient 2.1");
+		setTitle("ChatClient 2.0");
 		Panel p1 = new Panel();
 		p1.add(new Label("Host", Label.RIGHT));
 		p1.add(tf1 = new TextField("127.0.0.1"));
+//		p1.add(tf1 = new TextField("10.100.104.4"));
 		p1.add(new Label("Port", Label.RIGHT));
 		p1.add(tf2 = new TextField("8002"));
 		bt1 = new Button("connect");
@@ -83,15 +83,126 @@ implements ActionListener, Runnable {
 	}
 	
 	public void run() {
-		
-	}
+		try {
+			String host=tf1.getText().trim();
+			int port = Integer.parseInt(tf2.getText().trim());
+			connect(host,port); // 서버로부터 :사용하실 아이디를 입력하세요. 
+			area.append(in.readLine()+"\n");
+			while(true) {
+				String line=in.readLine();
+				if(line==null) {
+					break;
+				}else {
+					routine(line);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}//run
+	public void connect(String host, int port){
+		try {
+			sock = new Socket(host,port);
+			in = new BufferedReader(
+					new InputStreamReader(
+							sock.getInputStream()));
+			out = new PrintWriter(
+					sock.getOutputStream(), true/* auto flush */);
+		} catch (Exception e) {
+			System.err.println("Error in connect");
+			e.printStackTrace();
+		}
+//		//Thread 시작하기
+//		Thread t = new Thread(this);
+//		t.start();
+	}//connect
 	
+	@Override
 	public void actionPerformed(ActionEvent e) {
-		
+		Object obj = e.getSource();
+		if(obj==bt1)/*connect*/ {
+			//connect -> 서버 연결하고 run 메소드 호출
+			new Thread(this).start();
+			bt1.setEnabled(false);
+			tf1.setEnabled(false);//host
+			tf2.setEnabled(false);//port
+			area.setText("");//초기화 -> 빈화면 나오게 
+		}else if(obj==bt2)/*save*/ {
+			//대화내용 저장, 대화내용을 저장했습니다. 출력
+			String content =area.getText();
+			//유니크한 파일 이름 제작 1970년1월1일~현재가지 1/1000초 단위로 ㅖ산
+			long fileName = System.currentTimeMillis();
+			try {
+				FileWriter fw = new FileWriter("ch14/"+fileName+".txt");
+				fw.write(content);
+				fw.close();
+				area.setText("");
+				new MDialog(this, "Save", "대화내용을 저장하였습니다.");
+				
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}else if(obj==bt3)/*message*/ {
+			int i=list.getSelectedIndex();
+			if(i==-1||i==0)/*전체 채팅*/ {
+				new MDialog(this, "경고", "아이디를 선택하세요");
+			}else {
+				
+				new Message("TO:");
+			}
+		}else if(obj==bt4)/*send*/ {
+			String str = tf3.getText();
+			if(filterMgr(str)) {
+				new MDialog(this, "경고", "입력하신 글자는 금지어 입니다.");
+				return;//메소드를 중간에 빠져나가는 결과. 즉 밑에 소스는 의미가 없어짐
+				//메소드 중간에 return은 메소드를 빠져나가는 역할
+			}
+			if(!flag/*ID입력*/) {
+				sendMessage(ChatProtocol2.ID+":"+str);//서버전송
+				setTitle(getTitle()+"_"+str+"님 반갑습니다.");
+				area.setText("");
+				tf3.setText("");
+				tf3.requestFocus();
+				flag=true;
+			}else/*일반 채팅*/ {
+				int i=list.getSelectedIndex();
+				if(i==-1||i==0)/*전체 채팅*/ {
+					sendMessage(ChatProtocol2.CHATALL+":"+str);
+				}else /*귓속말 채팅*/{
+					String id = list.getSelectedItem();//선택한 id를 리턴
+					sendMessage(ChatProtocol2.CHAT+":"+id+";"+str);
+				}
+				tf3.setText("");
+				tf3.requestFocus();
+			}
+		}
 	}//----------actionPerformed
 
 	public void routine(String line) {
 		
+		int idx=line.indexOf(':');
+		String cmd/*CHATALL*/ = line.substring(0,idx);
+		String data/*오늘은...*/ = line.substring(idx+1);
+		if(cmd.equals(ChatProtocol2.CHATLIST)) {
+			//이용자 명단 1개씩 add
+			//data : aaa;bbb;ccc;
+			list.removeAll();//기존에 추가된 item을 모두 삭제
+			list.add(listTitle); // 처음부분  "*******대화자명단*******"
+			StringTokenizer st = new StringTokenizer(data,";");
+			while(st.hasMoreTokens()) {
+				list.add(st.nextToken()); //이용자 순차적으로 하나씩 추가
+			}
+		}else if(cmd.equals(ChatProtocol2.CHAT)||
+				cmd.equals(ChatProtocol2.CHATALL)) {
+			//CHATALL:[aaa]채팅메세지 & CHAT:[aaa(S)]채팅메세지
+			area.append(data+"\n");
+		}else if(cmd.equals(ChatProtocol2.MESSAGE)) {
+			//data -> bbb;밥묵자
+			idx=data.indexOf(';');
+			cmd/*bbb*/=data.substring(0,idx);
+			data/*밥묵자*/=data.substring(idx);
+			new Message("FROM",cmd,data);
+		}
 	}//routine
 	
 	public void sendMessage(String msg) {
@@ -99,20 +210,25 @@ implements ActionListener, Runnable {
 	}
 
 	public boolean filterMgr(String msg){
-		boolean flag = false;//false이면 금지어 아님
-		String str[] = {"바보","개새끼","새끼","자바","java"};
-		//하하 호호 히히
-		StringTokenizer st = new StringTokenizer(msg);
-		String msgs[] = new String[st.countTokens()];
+		boolean flag = false;
+		//false = 금지어 아님
+		String str[]= {"멍청이","자바","개새끼","JAVA"};
+//		msg=하하 호호 히히
+		StringTokenizer st = new StringTokenizer(msg); 
+		/* StringTokenizer :  구분자를 기준으로 단어 자르기 / 기본값 : 공백*/
+		String msgs[]=new String[st.countTokens()];
 		for (int i = 0; i < msgs.length; i++) {
-			msgs[i] = st.nextToken();
+			msgs[i]=st.nextToken();
+			
 		}
+		// 배열과 배열을 비교할때는 이중 반복
 		for (int i = 0; i < str.length; i++) {
-			if(flag) break;
+			if(flag)
+				break; // 첫번째 for문 빠져나감
 			for (int j = 0; j < msgs.length; j++) {
-				if(str[i].equals(msgs[j])){
-					flag = true;
-					break;
+				if(str[i].equalsIgnoreCase(msgs[j])) {
+					flag=true;
+					break;//두번째 for문 빠져나감
 				}
 			}
 		}
