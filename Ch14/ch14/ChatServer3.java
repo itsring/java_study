@@ -111,6 +111,12 @@ public class ChatServer3 extends Thread{
 				cmd=data.substring(0,idx);//aaa
 				data=data.substring(idx+1);//1234
 				if(mgr.loginChk(cmd, data)) {
+					/*접속한 id 값으로 CLientThread3찾기*/
+					ClientThread3 ct = findClient(cmd);
+					if(ct.id.equals(cmd)) { /*이중접속*/
+						sendAllMessage(ChatProtocol3.ID+":"+"C");	
+					}else {
+						
 					id=cmd;
 					//새로운 접속자가 추가되었기 때문에 리스트 재전송
 					
@@ -118,6 +124,7 @@ public class ChatServer3 extends Thread{
 					sendAllMessage(ChatProtocol3.CHATLIST+":"+getIds());
 					sendAllMessage(ChatProtocol3.CHATALL+
 							":"+"["+id+"]님이 입장하였습니다.");
+					}
 					//모든 접속자에게 입장메세지 전송
 				}else {
 					//로그인이 정상적으로 안된 경우 F
