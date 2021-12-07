@@ -9,12 +9,13 @@ public class MemberBean {
 	/*JVM 컴파일 시점에 생성자 없는 클래스 디폴트 생성자 제공*/
 	public MemberBean() {}
 	
-	public MemberBean(int id, String name, String phone, String address, String team) {
+	public MemberBean(int id, String name, String phone,String team, String address) {
 		this.id= id;
 		this.name=name;
 		this.phone=phone;
-		this.address=address;
 		this.team=team;
+		this.address=address;
+		
 	}
 	
 	public int getId() {

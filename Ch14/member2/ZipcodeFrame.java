@@ -23,10 +23,14 @@ public class ZipcodeFrame extends Frame implements ActionListener {
 	JPanel p1, p2;
 	ZipcodeMgr mgr;
 	DialogBox err1, err2;
-
-	public ZipcodeFrame() {
+	MemberAWT awt; // 객체 속성, 메서드 공유 목적
+	
+	public ZipcodeFrame(MemberAWT awt) {
+		/*주소값을 받아서 입력후 검색*/
+		this.awt = awt;
 		setTitle("ZipcodeFrame");
-		setBounds(500, 500, 300, 500);
+		/*setBounds(x,y,w,h) : awt의 오른쪽 옆에 호출됨*/
+		setBounds(awt.getX()+awt.getWidth(),awt.getY(),300,500);
 		mgr = new ZipcodeMgr();
 		p1 = new JPanel();
 		p1.setBackground(Color.LIGHT_GRAY);
@@ -49,7 +53,8 @@ public class ZipcodeFrame extends Frame implements ActionListener {
 			public void windowClosing(WindowEvent e) {
 				dispose();
 			}
-		});
+		}
+		);
 		add(p1, BorderLayout.NORTH);
 		add(list, BorderLayout.CENTER);
 		add(p2, BorderLayout.SOUTH);
@@ -100,13 +105,31 @@ public class ZipcodeFrame extends Frame implements ActionListener {
 					}
 				}
 			}
-		} else if (obj == list || obj == searchBtn) {
-
+		} else if (obj == list || obj == selectBtn) {
+			/*검색 결과가 지정한 위치에 오게 만들기*/
+			String adds = list.getSelectedItem();
+			awt.tf4.setText(adds);
+			list.removeAll();
+			dispose();
 		}
-
-	}
-
-	public static void main(String[] args) {
-		new ZipcodeFrame();
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

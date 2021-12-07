@@ -29,7 +29,7 @@ public class ZipcodeMgr {
 				bean.setZipcode(rs.getString(1));// zipcode 컬럼
 				bean.setArea1(rs.getString(2));// zipcode 컬럼
 				bean.setArea2(rs.getString(3));// zipcode 컬럼
-				bean.setArea3(rs.getString(4));// zipcode 컬럼
+				bean.setArea3(rs.getString(4).trim());// zipcode 컬럼
 				vlist.addElement(bean);
 			}
 		} catch (Exception e) {

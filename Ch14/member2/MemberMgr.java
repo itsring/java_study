@@ -22,7 +22,6 @@ public class MemberMgr {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;				
 		String sql = null;
-		boolean flag = false;
 		Vector<MemberBean> vlist = new Vector<MemberBean>();
 		try {
 			con = pool.getConnection();
@@ -32,7 +31,7 @@ public class MemberMgr {
 			while(rs.next()) {
 				MemberBean bean = new MemberBean(rs.getInt("id")
 						,rs.getString("name"),rs.getString("phone"),
-						rs.getString("phone"),rs.getString("team"));
+						rs.getString("team"),rs.getString("address").trim());
 //				bean.setId(rs.getInt("id"));
 //				bean.setName(rs.getString("name"));
 //				bean.setPhone(rs.getString("phone"));
@@ -81,10 +80,10 @@ public class MemberMgr {
 			if(cnt==1) {
 				flag=true;
 			}
-			System.out.println("추가 성공!");
+//			System.out.println("추가 성공!");
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("추가 실패!");
+//			System.out.println("추가 실패!");
 		} finally {
 			pool.freeConnection(con, pstmt);
 		}
@@ -111,6 +110,7 @@ public class MemberMgr {
 				bean.setPhone(rs.getString("phone"));
 				bean.setTeam(rs.getString("team"));
 				bean.setAddress(rs.getString("address"));
+				System.out.println(bean.getAddress());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -142,17 +142,17 @@ public class MemberMgr {
 			if(cnt==1) {
 				flag=true;
 			}
-			System.out.println("추가 성공!");
+//			System.out.println("추가 성공!");
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("추가 실패!");
+//			System.out.println("추가 실패!");
 		} finally {
 			pool.freeConnection(con, pstmt);
 		}
 		return flag;
 	}
 	//삭제하기
-	public boolean deleteMember(String id) {
+	public boolean deleteMember(int id) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String sql = null;
@@ -161,7 +161,7 @@ public class MemberMgr {
 			con = pool.getConnection();
 			sql = "delete from tblMember2 where id = ?";
 			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, id);
+			pstmt.setInt(1, id);
 			
 			int cnt = pstmt.executeUpdate();
 			if(cnt == 1) {
@@ -175,5 +175,27 @@ public class MemberMgr {
 		return flag;
 	}
 	
+	//team 리스트
+	public Vector<String> listTeam(){
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = null;
+		Vector<String> vlist = new Vector<String>();
+		try {
+			con = pool.getConnection();
+			sql = "select distinct team from tblMember2";
+			pstmt = con.prepareStatement(sql);
 
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				vlist.addElement(rs.getString(1));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt, rs);
+		}
+		return vlist;
+	}
 }
